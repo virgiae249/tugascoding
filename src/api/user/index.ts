@@ -1,16 +1,19 @@
 import express from 'express';
 import {
     index,
-    create,
+    register,
+    signin,
     remove,
     update
 } from './user.controller';
+import * as middleware from '../../middleware';
 
 let userRouter = express.Router();
 
-userRouter.get('/index', index);
-userRouter.post('/create', create);
-userRouter.delete('/:id', remove);
-userRouter.put('/update', update);
+userRouter.get('/index', middleware.isAuthenticated, index);
+userRouter.post('/register', register);
+userRouter.post('/signin', signin);
+userRouter.delete('/:id', middleware.isAuthenticated, remove);
+userRouter.put('/update', middleware.isAuthenticated, update);
 
 export default userRouter;
